@@ -7,14 +7,13 @@ import torch
 import matplotlib.pyplot as plt
 import numpy as np
 
-from torch import nn
-
 import os
 import zipfile
 
 from pathlib import Path
 
 import requests
+import random
 
 # Walk through an image classification directory and find out how many files (images)
 # are in each subdirectory.
@@ -34,6 +33,22 @@ def walk_through_dir(dir_path):
     """
     for dirpath, dirnames, filenames in os.walk(dir_path):
         print(f"There are {len(dirnames)} directories and {len(filenames)} images in '{dirpath}'.")
+
+def print_train_time(start: float, end: float, device: torch.device = None):
+    """Prints difference between start and end time.
+
+    Args:
+        start (float): Start time of computation (preferred in timeit format). 
+        end (float): End time of computation.
+        device ([type], optional): Device that compute is running on. Defaults to None.
+
+    Returns:
+        float: time between start and end in seconds (higher is longer).
+    """
+    total_time = end - start
+    print(f"Train time on {device}: {total_time:.3f} seconds")
+    return total_time
+
 
 def plot_decision_boundary(model: torch.nn.Module, X: torch.Tensor, y: torch.Tensor):
     """Plots decision boundaries of model predicting on X in comparison to y.
